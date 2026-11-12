@@ -1,0 +1,12 @@
+✻ Conversation compacted (ctrl+o for the summary)
+
+
+❯ Kept request
+
+⏺ Kept answer
+
+❯ New request
+
+⏺ New answer
+
+⏺ Session model model-x could not be restored (not a model this version of Claude Code recognizes) — using the default model instead.

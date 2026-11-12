@@ -1,0 +1,30 @@
+# Fish caught at the pond, head to the right, in four colours. flick swings the tail down a pixel.
+size 9x6
+
+[palette]
+a  #6fb7ff  @main   body
+d  #2f6fd0  @dark   fins and tail
+l  #d6ecff  @light  belly
+k  #231815          eye
+
+[colours]
+blue    main=#6fb7ff dark=#2f6fd0 light=#d6ecff
+orange  main=#ffb347 dark=#d0702f light=#ffe4b0
+green   main=#8fe08a dark=#3f9a4a light=#dcf7cf
+pink    main=#f29bc0 dark=#c9668f light=#ffdcea
+
+[frame swim]
+....dd...
+d..aaaaa.
+ddaaaaaka
+ddallllaa
+d..lll...
+.........
+
+[frame flick]
+....dd...
+...aaaaa.
+d.aaaaaka
+ddallllaa
+dd.lll...
+d........

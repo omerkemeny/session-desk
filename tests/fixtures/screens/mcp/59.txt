@@ -1,0 +1,27 @@
+❯ Group case 59
+
+⏺ Update(/w/a.txt)
+  ⎿  Error: failure line 1
+     failure line 2
+     failure line 3
+     failure line 4
+     failure line 5
+     failure line 6
+     failure line 7
+     failure line 8
+
+⏺ Write(/w/b.txt)
+  ⎿  Error: failure line 1
+     failure line 2
+     failure line 3
+     failure line 4
+     failure line 5
+     failure line 6
+     failure line 7
+     failure line 8
+
+  Called alpha
+
+⏺ Group shown.
+
+⏺ Session model model-x could not be restored (not a model this version of Claude Code recognizes) — using the default model instead.

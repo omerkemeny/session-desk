@@ -1,0 +1,42 @@
+<title>Session Desk</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Pixelify+Sans:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&text=0123456789&display=swap">
+<link rel="stylesheet" href="styles/base.css">
+<link rel="stylesheet" href="styles/garden.css">
+<link rel="stylesheet" href="styles/characters.css">
+<link rel="stylesheet" href="styles/fishing.css">
+<link rel="stylesheet" href="styles/motion.css">
+<link rel="stylesheet" href="styles/lists.css">
+<link rel="stylesheet" href="styles/drawer.css">
+<link rel="stylesheet" href="styles/stats.css">
+<link rel="stylesheet" href="styles/responsive.css">
+
+<div class="wrap">
+  <header class="top">
+    <h1>Session Desk</h1><span class="tagline" id="mode">demo · example data</span><button type="button" class="tagline upd" id="upd" hidden title="The app's code changed on disk since this page loaded. Reload to run the new version.">updated · reload</button>
+    <p id="sum"></p>
+  </header>
+  <section class="garden" id="garden" aria-label="Agents that need you">
+    <canvas id="bg" aria-hidden="true"></canvas>
+    <i class="fly" aria-hidden="true"></i><i class="fly" aria-hidden="true"></i><i class="fly" aria-hidden="true"></i>
+    <div class="sign" id="sign"></div>
+    <div class="wx" id="wx"></div>
+    <div class="rain" id="rain" hidden></div>
+    <div id="actors"></div>
+    <div class="quiet" id="quiet" hidden>Nobody needs you. Enjoy the garden.</div>
+  </section>
+  <div class="tools" role="search">
+    <input class="search" id="search" type="search" placeholder="Search title, project, branch or text" aria-label="Search sessions" aria-keyshortcuts="/" aria-describedby="hits" autocomplete="off">
+    <span class="hits" id="hits" aria-live="polite" hidden></span>
+    <span class="keyhint" aria-hidden="true"><kbd>/</kbd> search · <kbd>j</kbd> <kbd>k</kbd> move · <kbd>Enter</kbd> open</span>
+    <p class="setup" id="setup" hidden></p>
+  </div>
+  <section class="lists" id="lists"><p class="none">Loading sessions…</p></section>
+</div>
+<div class="shade" id="shade" hidden></div>
+<aside class="drawer" id="drawer" hidden role="dialog" aria-modal="true" aria-labelledby="dtitle"></aside>
+<div class="toast" id="toast" role="status" hidden></div>
+<div class="sr" id="say" aria-live="polite"></div>
+<script>/* Opened as a file: modules cannot load, so say how to open the app instead. */ if (location.protocol === 'file:') document.body.innerHTML = '<main class="fileopen"><h1>Session Desk</h1><p>Open this page through the app: run <code>python3 server.py</code> in the app folder and open the address it prints.</p></main>';</script>
+<script type="module" src="src/main.js"></script>

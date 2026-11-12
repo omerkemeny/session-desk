@@ -1,0 +1,29 @@
+# Fishing rod parts. The pole, grip and line are drawn along a curve, so they are colours, not grids. Uses palette.txt.
+# float: bobber on the water. reel: on the grip. bang: the "!" over the angler on a bite.
+
+[colours]
+rod  pole=#e3b25e pole2=#8f5f2a node=#5e3b16 grip=#4a2e17 grip2=#73492a tip=#e0453f line=#eef4f8 ring=#b4d8f5 drop=#f2faff
+
+[frame float]
+..K..
+.rwr.
+rrrrR
+wwwwW
+.wWW.
+
+[frame reel]
+.KKK.
+KawaK
+KaAaK
+KaaAK
+.KKK.
+
+[frame bang]
+kkkk
+kyyk
+kyyk
+kyyk
+kYYk
+kkkk
+kyyk
+kkkk

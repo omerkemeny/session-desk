@@ -1,0 +1,7 @@
+❯ Open the pull requests
+
+  Called forge, ran 5 shell commands
+
+⏺ Opened.
+
+⏺ Session model model-x could not be restored (not a model this version of Claude Code recognizes) — using the default model instead.

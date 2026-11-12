@@ -1,0 +1,36 @@
+/* garden */
+.garden { --px: 4; position: relative; height: clamp(300px, 52vh, 500px); overflow: hidden;
+  border: 3px solid var(--ink); box-shadow: 4px 4px 0 var(--ink); background: var(--sunk) }
+.garden canvas, .sprite { image-rendering: pixelated }
+#bg { position: absolute; inset: 0; width: 100%; height: 100% }
+.sign { position: absolute; left: 10px; top: 10px; z-index: 200; font: 600 14px var(--display);
+  background: var(--panel); border: 2px solid var(--ink); box-shadow: 2px 2px 0 var(--ink); padding: 2px 10px }
+.quiet { position: absolute; left: 50%; top: 58%; transform: translate(-50%, -50%); z-index: 150; text-align: center;
+  font: 400 15px var(--display); background: var(--panel); border: 2px solid var(--ink); padding: 6px 14px; max-width: 80% }
+.fly { position: absolute; width: var(--px); height: var(--px); background: var(--fly); z-index: 190; animation: drift 16s ease-in-out infinite alternate }
+.fly:nth-of-type(2) { animation-duration: 21s; animation-delay: -7s }
+.fly:nth-of-type(3) { animation-duration: 26s; animation-delay: -13s }
+@keyframes drift { 0% { left: 12%; top: 70% } 25% { left: 34%; top: 46% } 50% { left: 58%; top: 66% } 75% { left: 74%; top: 40% } 100% { left: 90%; top: 62% } }
+
+.wx { position: absolute; right: 10px; top: 10px; z-index: 200; font: 600 14px var(--display); text-align: right; max-width: 62%;
+  background: var(--panel); border: 2px solid var(--ink); box-shadow: 2px 2px 0 var(--ink); padding: 2px 10px }
+.rain { position: absolute; inset: 0; z-index: 195; pointer-events: none; overflow: hidden; background-size: 0 0 }
+/* The rain tile falls on a ::before one tile larger each way, moved with transform so the compositor runs it. */
+.rain::before { content: ""; position: absolute; inset: calc(-24px * var(--px)) calc(-24px * var(--px)) 0; background-image: inherit; image-rendering: pixelated;
+  background-size: calc(24px * var(--px)) calc(24px * var(--px)); animation: fall .55s linear infinite }
+.rain.snow::before { animation-duration: 5s }
+.rain.storm { animation: flash 7s steps(1) infinite }
+@keyframes fall { to { transform: translate(var(--rx, 0px), calc(24px * var(--px))) } }
+/* Rain leans with the wind in two steps either way; snow and calm air fall straight. */
+.rain.leanr1 { --rx: calc(8px * var(--px)) } .rain.leanr2 { --rx: calc(16px * var(--px)) } .rain.leanl1 { --rx: calc(-8px * var(--px)) } .rain.leanl2 { --rx: calc(-16px * var(--px)) }
+@keyframes flash { 0%, 100% { background-color: transparent } 96% { background-color: rgba(255, 255, 255, .45) } 97% { background-color: transparent } }
+@media (prefers-reduced-motion: reduce) { .rain, .rain::before { animation: none } }
+@media (max-width: 700px) { .wx, .sign { font-size: 12px } }
+
+.sign .more { color: var(--faint, inherit); font-weight: 400 }
+/* The mine's "+N": working sessions with no spot at the mine, a small plaque under the mine door, below every miner. */
+.minemore { position: absolute; left: 93%; top: 33%; transform: translateX(-50%); z-index: 40; font: 600 12px var(--display);
+  background: var(--panel); border: 2px solid var(--ink); box-shadow: 2px 2px 0 var(--ink); padding: 0 6px }
+.minemore .more { color: var(--faint, inherit); font-weight: 400 }
+/* On a phone the door sits near the right edge: the plaque keeps inside the garden, flush right under the door. */
+@media (max-width: 700px) { .minemore { left: auto; right: 4px; transform: none } }

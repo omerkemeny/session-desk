@@ -1,0 +1,69 @@
+❯ Group case 61
+
+⏺ Update(/w/10.txt)
+  ⎿  Error: failure line 1
+     failure line 2
+     failure line 3
+     failure line 4
+     failure line 5
+     failure line 6
+     failure line 7
+     failure line 8
+     failure line 9
+     failure line 10
+
+⏺ Update(/w/11.txt)
+  ⎿  Error: failure line 1
+     failure line 2
+     failure line 3
+     failure line 4
+     failure line 5
+     failure line 6
+     failure line 7
+     failure line 8
+     failure line 9
+     failure line 10
+     … +1 line
+
+⏺ Update(/w/12.txt)
+  ⎿  Error: failure line 1
+     failure line 2
+     failure line 3
+     failure line 4
+     failure line 5
+     failure line 6
+     failure line 7
+     failure line 8
+     failure line 9
+     failure line 10
+     … +2 lines
+
+⏺ Update(/w/20.txt)
+  ⎿  Error: failure line 1
+     failure line 2
+     failure line 3
+     failure line 4
+     failure line 5
+     failure line 6
+     failure line 7
+     failure line 8
+     failure line 9
+     failure line 10
+     … +10 lines
+
+⏺ Update(/w/40.txt)
+  ⎿  Error: failure line 1
+     failure line 2
+     failure line 3
+     failure line 4
+     failure line 5
+     failure line 6
+     failure line 7
+     failure line 8
+     failure line 9
+     failure line 10
+     … +30 lines
+
+⏺ Group shown.
+
+⏺ Session model model-x could not be restored (not a model this version of Claude Code recognizes) — using the default model instead.

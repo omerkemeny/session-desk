@@ -1,0 +1,11 @@
+❯ Real first request
+
+⏺ Answer
+
+❯ <system-reminder>note</system-reminder>
+
+❯ Follow-up request
+
+⏺ Follow-up answer
+
+⏺ Session model model-x could not be restored (not a model this version of Claude Code recognizes) — using the default model instead.

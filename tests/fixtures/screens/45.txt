@@ -1,0 +1,36 @@
+❯ Tool results case 45
+
+⏺ Update(/w/a.txt)
+  ⎿  Removed 2 lines
+      3 -gone one
+      4 -gone two
+
+⏺ Update(/w/a.txt)
+  ⎿  Added 2 lines
+      5 +new one
+      6 +new two
+
+⏺ Update(/w/a.txt)
+  ⎿  Added 1 line, removed 1 line
+       98  row 98
+       99 -row 99
+       99 +ROW 99
+      100  row 100
+
+⏺ Write(/w/big.txt)
+  ⎿  Wrote 120 lines to /w/big.txt
+       1 row 1
+       2 row 2
+       3 row 3
+       4 row 4
+       5 row 5
+       6 row 6
+       7 row 7
+       8 row 8
+       9 row 9
+      10 row 10
+     … +110 lines
+
+⏺ Results shown.
+
+⏺ Session model model-x could not be restored (not a model this version of Claude Code recognizes) — using the default model instead.

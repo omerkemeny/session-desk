@@ -1,0 +1,5 @@
+❯ Run three
+
+  Ran 3 shell commands
+
+⏺ Session model model-x could not be restored (not a model this version of Claude Code recognizes) — using the default model instead.

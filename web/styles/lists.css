@@ -1,0 +1,67 @@
+/* lists */
+.tools { display: flex; flex-wrap: wrap; gap: 10px; align-items: center }
+.search { flex: 1 1 220px; max-width: 360px; min-width: 0; background: var(--panel); border: 2px solid var(--ink); padding: 6px 10px }
+.search { box-shadow: 3px 3px 0 var(--ink); transition: box-shadow .14s ease-out, transform .14s ease-out, border-color .14s ease-out }
+.search:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--ink) }
+.search:focus-visible { outline: 0; border-color: var(--accent); transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--accent) }
+.lists { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; align-items: start }
+.col h3 { font: 600 16px var(--display); margin: 0 0 6px; display: flex; gap: 8px; align-items: baseline }
+.col h3 span { color: var(--faint); font-weight: 400 }
+.rows { background: var(--panel); border: 1px solid var(--line) }
+.rows { position: relative; box-shadow: 3px 3px 0 var(--line) }
+.row { --px: 2; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; align-items: center; width: 100%; text-align: left;
+  border: 0; border-top: 1px solid var(--line); background: none; padding: 8px 10px }
+.row:first-child { border-top: 0 }
+.row:hover { background: var(--sunk) }
+.row .title { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.row .sub { font-size: 12px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.row .last { font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.row.running .last { color: var(--run) }
+/* rows press like keys: a pixel bar on hover, one pixel down on press, idle sprites hop */
+.row { transition: background-color .14s ease-out, box-shadow .14s ease-out, transform .08s ease-out }
+.row:hover { box-shadow: inset 4px 0 0 var(--accent) }
+.row.running:hover { box-shadow: inset 4px 0 0 var(--run) }
+.row:active { transform: translateY(1px); background: var(--line); box-shadow: inset 2px 0 0 var(--accent) }
+.row:not(.running):hover .sprite { animation: rowhop .6s steps(1) infinite }
+@keyframes rowhop { 50% { transform: translateY(-2px) } }
+/* working rows walk on the compositor: the sheet slides inside the sprite box, so a still page does no style work for them */
+.lists .row.running .sprite { position: relative; overflow: hidden; animation: none; background-size: 0 0 }
+.lists .row.running .sprite::before { content: ""; position: absolute; left: 0; top: 0; width: 200%; height: 100%; background: inherit; background-size: 100% 100%; background-position: 0 0; animation: rowwalk .32s steps(1) infinite }
+@keyframes rowwalk { 0% { transform: none } 50%, 100% { transform: translateX(-50%) } }
+@media (prefers-reduced-motion: reduce) { .lists .row.running .sprite::before { animation: none } }
+.row.gone { pointer-events: none }
+.none { padding: 14px; color: var(--muted); background: var(--panel); border: 1px dashed var(--line); overflow-wrap: anywhere }
+.none { animation: none-in .22s ease-out }
+@keyframes none-in { from { opacity: 0; transform: translateY(-4px) } }
+.more { padding: 8px 10px; color: var(--muted); font-size: 12px; border-top: 1px solid var(--line) }
+/* search feedback: hit count with garden matches as small buttons, marked hits in rows, a quiet key hint at the right */
+.hits { font-size: 13px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 4px 6px; align-items: center; min-width: 0 }
+.ghit { border: 1px solid var(--line); background: var(--panel); padding: 1px 8px; font-size: 12px; max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.ghit:hover { border-color: var(--accent); color: var(--accent-ink) }
+mark { background: var(--accent-soft); color: inherit; box-shadow: 0 1px 0 var(--accent) }
+.keyhint { margin-left: auto; font-size: 12px; color: var(--faint); white-space: nowrap }
+kbd { font: 11px var(--mono); border: 1px solid var(--line); border-bottom-width: 2px; padding: 0 4px; background: var(--panel); color: var(--muted) }
+.lists > .none { grid-column: 1 / -1; margin: 0 }
+/* row badges: small quiet chips after the title, a red pixel dot when the newest tool result failed */
+.row .tl { display: flex; align-items: center; gap: 6px; min-width: 0 }
+.row .tl .title { min-width: 0; flex: 0 1 auto }
+.chips { display: inline-flex; gap: 4px; flex: none; align-items: center }
+.chips:empty { display: none }
+.chip { position: relative; font: 500 11px/1 var(--mono); padding: 2px 4px; border: 1px solid var(--line); color: var(--muted); background: var(--panel); white-space: nowrap }
+.chip.pr { color: var(--add); border-color: currentColor }
+.chip.also, .chip.behind, .chip.diverged { color: var(--accent-ink); border-color: currentColor }
+.chip.err { width: 8px; height: 8px; padding: 0; border: 0; background: var(--del); box-shadow: 0 0 0 1px var(--panel) }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap }
+/* automated runs: one quiet fold line at the end of Resting; their rows read a little softer */
+.fold { display: block; width: 100%; text-align: left; border: 0; border-top: 1px solid var(--line); background: none; color: var(--muted); font-size: 12px; padding: 9px 10px; min-height: 36px }
+.fold:hover:not(:disabled) { background: var(--sunk); color: var(--ink) }
+.fold:disabled { cursor: default }
+.row.auto .title { font-weight: 500; color: var(--muted) }
+.hits .over { color: var(--accent-ink) }
+/* Setup notices: what is wrong on a first run (empty Working column) and why terminals and replies are off (line under the search box); quiet, no colour beyond the accent ink */
+.none.setup .setup-why { display: block; color: var(--accent-ink) }
+.none.setup .setup-how { display: block; margin-top: 4px; font-size: 13px }
+.none code, .tools .setup code { font: 12px var(--mono); padding: 0 3px; border: 1px solid var(--line); background: var(--sunk) }
+.tools .setup { flex: 1 0 100%; order: 3; margin: 0; font-size: 13px; color: var(--muted); overflow-wrap: anywhere }
+/* a long unfolded list: rows past the first 30 lay out and paint only near the screen */
+.rows > .row:nth-child(n+31):not(.gone) { content-visibility: auto; contain-intrinsic-size: auto 66px }

@@ -1,0 +1,20 @@
+/* Classic motion: plain two-frame bob and walk as before; no poses, hops, squash, flips or sparks. Delete this block to get them back. */
+.agent :is(.fig, .gnd), .agent .say, .sign.bump, .quiet:not([hidden]) { animation: none !important }
+.agent .fig, .agent.left .pix { scale: none !important }
+.agent .pix { animation: bob 1.4s steps(1) var(--d, 0s) infinite !important }
+.agent:is(:hover, :focus-visible) .pix { animation-duration: .5s !important }
+.agent.walking .pix { animation: ch-walk2 .32s steps(1) infinite !important }
+/* Faces by state: happy arcs and raised arms on hover, happy arcs while walking off with an answer. */
+.agent:not(.walking, :disabled):is(:hover, :focus-visible) .pix { background-position: calc(-96 * var(--u)) 0 }
+.agent.glad.walking .pix { animation-name: ch-walk3 !important }
+@keyframes ch-walk3 { 0%, 100% { background-position: calc(-128 * var(--u)) 0 } 50% { background-position: calc(-144 * var(--u)) 0 } }
+.agent.miner .sprite { animation: none !important }
+.agent.miner :is(.spark, .ore) { display: none }
+@keyframes ch-walk2 { 0%, 100% { background-position: 0 0 } 50% { background-position: calc(-16 * var(--u)) 0 } }
+/* Calm activities: sitters breathe slower, nappers slower still, the gold pan shakes at an easy pace. */
+.agent.sit:not(:hover, :focus-visible) .pix { animation-duration: 2s !important }
+.agent.nap:not(:hover, :focus-visible) .pix { animation-duration: 3s !important }
+.agent.stale:not(:hover, :focus-visible) .pix { animation: none !important }
+.agent.miner.pan .sprite::before { animation-duration: 1.2s }
+/* Off screen or under the open sidebar: everything in the garden holds still until it shows again. */
+.garden.rest *, .garden.rest *::before, #actors .under, #actors .under *, #actors .under *::before { animation-play-state: paused !important }

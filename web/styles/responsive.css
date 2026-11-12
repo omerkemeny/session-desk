@@ -1,0 +1,12 @@
+/* narrow screens and reduced motion across the page; loaded last so it overrides the area files */
+@media (max-width: 700px) { .garden { --px: 3 } .lists { grid-template-columns: minmax(0, 1fr) } #sum { margin-left: 0; width: 100% } .tag { max-width: 96px } }
+@media (prefers-reduced-motion: reduce) { .agent { transition: none } .agent .sprite, .row .sprite, .bubble, .fly, .drawer { animation: none !important } }
+/* Reduced motion wins over the classic-motion block above: characters, bubbles and miners stand still. */
+@media (prefers-reduced-motion: reduce) { .agent .pix, .agent.walking .pix, .agent .bubble, .agent.miner .sprite { animation: none !important } }
+/* Key hints are for keyboards: hidden on narrow and touch screens. */
+@media (max-width: 700px), (pointer: coarse) { .keyhint, .esck { display: none } }
+/* Touch and phone widths: every control at least 40 px tall. */
+@media (max-width: 700px), (pointer: coarse) { .us-btn, .search, .fold, .ghit, .us-per button, .us-x { min-height: 40px } .us-per button { padding-inline: 12px } .us-x { min-width: 40px } }
+/* Sidebar on a phone: the tabs and Details get their own row under the title, footer notes take a full row above their buttons, buttons are touch-sized. */
+@media (max-width: 700px) { .thead { grid-template-columns: auto minmax(0, 1fr) } .thead > .tabs { grid-column: 1 / -1; flex-wrap: wrap; justify-content: flex-end } .tfoot #xtnote, .tfoot .needs > span:not(.w) { flex: 1 1 100% } }
+@media (max-width: 700px), (pointer: coarse) { .drawer .tbtn { min-height: 40px; padding-inline: 12px } .tfoot .needs { gap: 8px 10px } .tfind input { min-height: 40px } }

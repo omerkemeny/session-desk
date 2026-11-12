@@ -1,0 +1,34 @@
+# Ore boulder beside each miner: the glint jumps between two crystals, with a sparkle on the second frame.
+# The ore colour comes from the mine (gold or ice), so O is a @role.
+size 10x8
+
+[palette]
+l  #c3c8cf  light stone
+s  #8d939c  stone
+S  #5f656e  dark stone
+O  #ffd447  @ore  ore crystal
+w  #ffffff  glint
+
+[colours]
+gold  ore=#ffd447
+ice   ore=#6fe0ff
+
+[frame glint]
+...lll....
+..lsssS...
+.lswssSS..
+lssssOsS..
+lsOsssssS.
+lssssOssSS
+SsssssssSS
+.SSSSSSSS.
+
+[frame sparkle]
+...lll..w.
+..lsssSwOw
+.lsOssSSw.
+lssssOsS..
+lsOsssssS.
+lsssswssSS
+SsssssssSS
+.SSSSSSSS.

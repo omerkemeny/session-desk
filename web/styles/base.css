@@ -1,0 +1,55 @@
+/* Layout: pixel garden on top (only agents that need you), two quiet lists below, session opens in a side drawer. */
+:root {
+  --bg: #f1f6ea; --panel: #ffffff; --sunk: #e6eedb; --line: #cbd8be;
+  --ink: #1f2b1c; --muted: #5a6955; --faint: #637260;
+  --accent: #d97757; --accent-ink: #a64d2e; --accent-soft: #fbe6dc;
+  --run: #2d6fb0; --run-soft: #dcebf9; --rest: #5a6955; --rest-soft: #e6eedb;
+  --add: #24764b; --del: #b3312f; --fly: #ff8fb1; --scene: day;
+  /* Silkscreen is loaded with digits only: clear numbers, letters stay Pixelify Sans. */
+  --display: "Silkscreen", "Pixelify Sans", "Courier New", monospace;
+  --body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0e140d; --panel: #172016; --sunk: #1f2b1e; --line: #304030;
+  --ink: #e6efdf; --muted: #9bab94; --faint: #7a8a74;
+  --accent: #e8906f; --accent-ink: #f2a98c; --accent-soft: #3a241b;
+  --run: #7ab8ee; --run-soft: #16304a; --rest: #9bab94; --rest-soft: #1f2b1e;
+  --add: #6fca97; --del: #f08a86; --fly: #f4ff8a; --scene: night; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0e140d; --panel: #172016; --sunk: #1f2b1e; --line: #304030;
+  --ink: #e6efdf; --muted: #9bab94; --faint: #7a8a74;
+  --accent: #e8906f; --accent-ink: #f2a98c; --accent-soft: #3a241b;
+  --run: #7ab8ee; --run-soft: #16304a; --rest: #9bab94; --rest-soft: #1f2b1e;
+  --add: #6fca97; --del: #f08a86; --fly: #f4ff8a; --scene: night; color-scheme: dark }
+
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--ink); font: 14px/1.5 var(--body) }
+.wrap { max-width: 1180px; margin: 0 auto; padding-block: 18px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: flex; flex-direction: column; gap: 16px }
+button, input, textarea { font: inherit; color: inherit }
+button { cursor: pointer }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px }
+.mono { font-family: var(--mono); font-size: 12px }
+.num { font-variant-numeric: tabular-nums }
+.px { font-family: var(--display) }
+
+.top { display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center }
+.top h1 { font: 600 26px/1.1 var(--display); margin: 0 }
+.tagline { font: 400 12px var(--display); color: var(--muted); border: 2px dashed var(--line); padding: 1px 8px }
+#sum { margin: 0 0 0 auto; color: var(--muted); font-family: var(--display); font-size: 15px }
+#sum b { color: var(--accent-ink); font-weight: 600 }
+/* page chrome: a pixel drop shadow on the title, counters that can hop */
+.top h1 { text-shadow: 2px 2px 0 var(--accent-soft) }
+#sum .num { display: inline-block }
+#sum .sg { white-space: nowrap }
+/* "updated · reload" pill beside the feed state: shown once the app's code changed on disk; quiet, one click reloads */
+.upd { margin-left: -10px; background: none; color: var(--accent-ink); border-color: var(--accent); border-style: solid; cursor: pointer }
+.upd:hover { background: var(--accent-soft) }
+.upd[hidden] { display: none }
+/* page opened as a file (modules cannot load there): one plain panel saying how to open it */
+.fileopen { max-width: min(34em, calc(100% - 32px)); margin: 15vh auto 0; padding: 20px 22px; background: var(--panel); border: 2px solid var(--line); border-radius: 8px }
+.fileopen h1 { margin: 0 0 8px; font: 600 20px var(--display) }
+.fileopen p { margin: 0 }
+.fileopen code { font-family: var(--mono); background: var(--sunk); padding: 1px 5px; border-radius: 4px }

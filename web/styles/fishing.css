@@ -1,0 +1,15 @@
+/* Fishing: bamboo rod, sagging line and float in half-size pixels; idle is a three-frame strip, a catch plays on the canvas. */
+.rod { position: absolute; pointer-events: none }
+/* Anglers crowd the pond: name tag only on hover or keyboard focus, so the water stays visible. */
+.agent.fisher .tag { visibility: hidden }
+.agent.fisher:is(:hover, :focus-visible) .tag { visibility: visible }
+.rod b, .rod canvas { position: absolute; inset: 0; width: 100%; height: 100%; image-rendering: pixelated }
+.rod b { overflow: hidden; background-size: 0 0 }
+/* Idle strip on a ::before three frames wide, moved with transform so the compositor runs it. */
+.rod b::before { content: ""; position: absolute; left: 0; top: 0; width: 300%; height: 100%; background-image: inherit; background-size: 100% 100%; background-repeat: no-repeat; image-rendering: pixelated;
+  animation: rod-idle var(--rt, 7s) steps(1) var(--rd, 0s) infinite }
+.rod.reeling b { visibility: hidden }
+@keyframes rod-idle { 0%, 46%, 84%, 100% { transform: none } 34%, 70%, 81% { transform: translateX(calc(-100% / 3)) } 78% { transform: translateX(calc(-200% / 3)) } }
+/* Happy arcs for the angler while the catch dangles and lands. */
+.agent.fisher.caught .pix { background-position: calc(-128 * var(--u)) 0 }
+@media (prefers-reduced-motion: reduce) { .rod b::before { animation: none } }

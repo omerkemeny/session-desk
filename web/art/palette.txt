@@ -1,0 +1,36 @@
+# Shared palette: every file without its own [palette] section paints with these letters.
+# One line per letter: letter, colour, optional @role, then a note. A @role letter takes its colour from a colour set,
+# so 'o' and 'd' follow the body colour a session wears; the colour here is the default.
+[palette]
+o  #d97757  @body   body (recoloured per body colour)
+h  #f0a283          body highlight
+d  #b85c3c  @shade  body shade (recoloured per body colour)
+x  #86391f          deep shade
+c  #f19486          blush
+m  #5c2414          mouth
+k  #231815          ink: eyes, outlines
+K  #4d4240          charcoal
+w  #ffffff          white
+W  #cdd5dc          silver
+p  #7b4fd0          purple
+P  #55339c          dark purple
+L  #a882f0          lilac
+y  #ffd447          yellow
+Y  #d39b1c          dark yellow
+l  #fff7c2          cream
+s  #e8c876          straw
+S  #bf9c4a          dark straw
+r  #e0453f          red
+R  #a32b27          dark red
+b  #3d8bfd          blue
+B  #2560c4          dark blue
+g  #2f9e5b          green
+G  #1d6e3e          dark green
+n  #f29bc0          pink
+N  #c9668f          dark pink
+t  #a06e40          wood
+T  #5e3b20          dark wood
+a  #d3d8df          steel
+A  #878e98          dark steel
+v  #7d8da3          slate
+V  #56657a          dark slate

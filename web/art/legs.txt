@@ -1,0 +1,18 @@
+# Legs under the body. stand, step and step2 are the walk frames; sit dangles the feet over a stump. Uses palette.txt.
+size 16x2
+
+[frame stand]
+..o.o......o.o..
+..o.o......o.o..
+
+[frame step]
+...o.o....o.o...
+..o..o....o..o..
+
+[frame step2]
+..o.o......o.o..
+...o.o....o.o...
+
+[frame sit]
+..o.o......o.o..
+..ddd......ddd..

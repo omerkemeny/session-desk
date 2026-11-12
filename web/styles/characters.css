@@ -1,0 +1,176 @@
+/* garden characters: waiting agents, bubbles, name tags, miners and subagent minis */
+.agent { --u: calc(var(--px) * 1px); position: absolute; transform: translate(-50%, -100%); border: 0; padding: 0; background: none; line-height: 0 }
+.sprite { display: block; width: calc(16px * var(--px, 4)); height: calc(15px * var(--px, 4)); background-size: 200% 100%; background-repeat: no-repeat }
+.agent .fig { display: block; position: relative; transform-origin: 50% 100%; animation: ch-perk var(--h, 12s) steps(1) var(--hd, 0s) infinite }
+.agent .pix { display: block; width: calc(16 * var(--u)); height: calc(15 * var(--u)); background-size: calc(160 * var(--u)) 100%; background-repeat: no-repeat; image-rendering: pixelated;
+  animation: ch-idle var(--t, 9s) steps(1) var(--d, 0s) infinite, bob var(--b, 1.8s) steps(1) var(--d, 0s) infinite }
+.agent.walking .sprite, .row.running .sprite { animation: walk .32s steps(1) infinite }
+@keyframes bob { 0%, 100% { transform: none } 50% { transform: translateY(calc(-1px * var(--px, 4))) } }
+@keyframes walk { 0%, 100% { background-position: 0 0 } 50% { background-position: 100% 0 } }
+.bubble { position: absolute; left: 50%; bottom: calc(100% + 6px); transform: translateX(-50%); transform-origin: 0 100%; font: 600 16px/1 var(--display);
+  background: #fff; color: #1f2b1c; border: 2px solid #1f2b1c; padding: 3px 7px }
+.bubble::after { content: ""; position: absolute; left: 50%; top: 100%; width: 6px; height: 6px; margin-left: -3px; background: #1f2b1c }
+.agent.walking:not(.bye) .bubble { visibility: hidden }
+.agent.bye .bubble { color: #d0453f; animation: none }
+.tag { position: absolute; left: 50%; top: calc(100% + 2 * var(--u, 4px) + 2px); transform: translateX(-50%); font: 400 12px/1.3 var(--display);
+  background: var(--panel); color: var(--ink); border: 2px solid var(--ink); padding: 0 6px; white-space: nowrap; max-width: 130px; overflow: hidden; text-overflow: ellipsis }
+.agent.walking .tag { visibility: hidden }
+.agent.sleeper { --px: 3 }
+.agent.sleeper .sprite { animation: none }
+.agent.sleeper .tag { display: none }
+.agent.sleeper .bubble { font-size: 11px; padding: 1px 4px; border-width: 1px; bottom: calc(100% + 3px) }
+.agent.sleeper .bubble::after { display: none }
+/* garden characters: per-character timing comes from inline --d, --t, --b, --h, --hd, --q */
+.agent.alt .pix { animation: ch-idle2 var(--t, 9s) steps(1) var(--d, 0s) infinite, bob var(--b, 1.8s) steps(1) var(--d, 0s) infinite }
+.agent.left .pix { scale: -1 1 }
+.agent .gnd { position: absolute; left: 50%; bottom: calc(-2 * var(--u)); width: calc(12 * var(--u)); height: calc(3 * var(--u)); margin-left: calc(-6 * var(--u)); pointer-events: none;
+  background: linear-gradient(rgba(0, 0, 0, .2), rgba(0, 0, 0, .2)) 50% 0 / calc(8 * var(--u)) 100% no-repeat, linear-gradient(rgba(0, 0, 0, .2), rgba(0, 0, 0, .2)) 0 50% / 100% var(--u) no-repeat;
+  animation: ch-shade var(--h, 12s) steps(1) var(--hd, 0s) infinite }
+.agent:not(.miner, .walking, :disabled):is(:hover, :focus-visible) .fig { animation: ch-perkup .45s steps(1) }
+.agent:not(.walking, :disabled):is(:hover, :focus-visible) .pix { animation: ch-wave .56s steps(1) infinite }
+.agent:not(:disabled):active .fig { scale: 1.12 .86 }
+.agent.land .fig { animation: ch-land .42s steps(1) }
+.agent.spawn .fig { animation: ch-spawn .5s steps(1) var(--ld, 0s) backwards }
+.agent:is(.land, .spawn) .bubble { animation: ch-pop .4s steps(1) var(--ld, 0s) backwards }
+.agent.spawn :is(.tag, .gnd) { animation: ch-show 1ms var(--ld, 0s) backwards }
+.agent.cheer .pix { animation: ch-cheer .3s steps(1) infinite }
+.agent.cheer .fig { animation: ch-jump .31s steps(1) 2 }
+.agent.cheer .bubble { animation: ch-pop .35s steps(1) }
+.agent.walking .pix { animation: ch-step .48s steps(1) infinite }
+.agent.walking .fig { animation: ch-trot .48s steps(1) infinite }
+.agent:is(.walking, .cheer) .gnd { animation: none }
+/* hover speech bubble with a preview of the question; JS sets --sx to keep it inside the garden */
+.agent .say { position: absolute; left: 50%; bottom: calc(100% + 5 * var(--u)); transform: translateX(calc(-50% + var(--sx, 0px))); transform-origin: 0 100%; width: max-content; max-width: 220px;
+  font: 400 13px/1.3 var(--display); text-align: left; overflow-wrap: anywhere; background: #fff; color: #1f2b1c; border: 2px solid #1f2b1c; box-shadow: 3px 3px 0 rgba(0, 0, 0, .25);
+  padding: 4px 8px; visibility: hidden; pointer-events: none }
+.agent .say::after { content: ""; position: absolute; left: calc(50% - var(--sx, 0px)); top: 100%; width: 6px; height: 6px; margin: 2px 0 0 -3px; background: #1f2b1c }
+.agent:not(.walking, :disabled):is(:hover, :focus-visible) { z-index: 180 !important }
+.agent:not(.walking, :disabled):is(:hover, :focus-visible) .say { visibility: visible; animation: ch-pop .2s steps(2) }
+.agent:not(.walking, :disabled):is(:hover, :focus-visible) .bubble { visibility: hidden }
+/* miners: raise, strike with a spark and dust, an ore chip every sixth swing */
+.agent.miner .fig { animation: ch-heave var(--sw, .9s) steps(1) var(--d, 0s) infinite }
+.agent.miner.land .fig { animation: ch-heave var(--sw, .9s) steps(1) var(--d, 0s) infinite, ch-land .42s steps(1) }
+.agent.miner.spawn .fig { animation: ch-heave var(--sw, .9s) steps(1) var(--d, 0s) infinite, ch-spawn .5s steps(1) var(--ld, 0s) backwards }
+.agent.miner .gnd { left: calc(8 * var(--u)); animation: none }
+.agent.miner :is(.spark, .ore) { position: absolute; left: calc(20 * var(--u)); top: calc(13 * var(--u)); width: var(--u); height: var(--u); opacity: 0; pointer-events: none }
+.agent.miner .spark { animation: ch-spark var(--sw, .9s) steps(1) calc(var(--d, 0s) + var(--sw, .9s) * .6) infinite }
+.agent.miner .ore { background: var(--oc, #ffd447); animation: ch-ore calc(var(--sw, .9s) * 6) steps(1) calc(var(--d, 0s) + var(--sw, .9s) * .6) infinite }
+/* answered: hearts and confetti rising; sign bump; quiet note; z's from the town chimneys */
+.confetti { --u: calc(var(--px) * 1px); position: absolute; z-index: 185; width: calc(16 * var(--u)); height: calc(15 * var(--u)); transform: translate(-50%, -100%); pointer-events: none }
+.confetti i { position: absolute; left: calc(var(--sx) * var(--u)); top: calc(var(--sy) * var(--u)); width: var(--u); height: var(--u); background: var(--c);
+  animation: ch-rise .9s steps(9) var(--dl, 0s) both, ch-fade .9s steps(3) var(--dl, 0s) both }
+.confetti .h { box-shadow: calc(2 * var(--u)) 0 var(--c), 0 var(--u) var(--c), var(--u) var(--u) var(--c), calc(2 * var(--u)) var(--u) var(--c), var(--u) calc(2 * var(--u)) var(--c) }
+.sign b { color: var(--accent-ink); font-weight: 600 }
+.sign.bump { transform-origin: 0 50%; animation: ch-bump .48s steps(1) }
+.quiet:not([hidden]) { animation: ch-quiet .5s steps(5) .5s both }
+.snore { position: absolute; z-index: 30; transform: translate(-50%, -100%); font: 600 13px/1 var(--display); font-style: normal; color: var(--ink); pointer-events: none }
+@keyframes ch-idle { 0%, 23.5%, 60%, 62.5%, 88% { background-position: 0 0 } 22%, 61% { background-position: calc(-32 * var(--u)) 0 } 48% { background-position: calc(-48 * var(--u)) 0 } 78% { background-position: calc(-64 * var(--u)) 0 } }
+@keyframes ch-idle2 { 0%, 16.5%, 37%, 41%, 66%, 74%, 87.5%, 90.5% { background-position: 0 0 } 15%, 86%, 89% { background-position: calc(-32 * var(--u)) 0 } 35%, 39% { background-position: calc(-16 * var(--u)) 0 } 62%, 70% { background-position: calc(-80 * var(--u)) 0 } }
+@keyframes ch-step { 0% { background-position: calc(-16 * var(--u)) 0 } 25%, 75% { background-position: 0 0 } 50% { background-position: calc(-112 * var(--u)) 0 } }
+@keyframes ch-trot { 0%, 50% { translate: 0 0 } 25%, 75% { translate: 0 calc(-1 * var(--u)) } }
+@keyframes ch-wave { 0%, 100% { background-position: calc(-80 * var(--u)) 0 } 50% { background-position: 0 0 } }
+@keyframes ch-cheer { 0%, 100% { background-position: calc(-96 * var(--u)) 0 } 50% { background-position: calc(-16 * var(--u)) 0 } }
+@keyframes ch-perk { 0%, 95%, 97.4% { translate: 0 0 } 95.6%, 96.8% { translate: 0 calc(-2 * var(--u)) } 96.2% { translate: 0 calc(-3 * var(--u)) } }
+@keyframes ch-shade { 0%, 95%, 97.4% { scale: 1 } 95.6%, 96.8% { scale: .84 1 } 96.2% { scale: .67 1 } }
+@keyframes ch-perkup { 0% { translate: 0 calc(-2 * var(--u)) } 25% { translate: 0 calc(-4 * var(--u)) } 50% { translate: 0 calc(-2 * var(--u)) } 75%, 100% { translate: 0 0 } }
+@keyframes ch-jump { 0% { translate: 0 calc(-2 * var(--u)) } 25% { translate: 0 calc(-5 * var(--u)) } 50% { translate: 0 calc(-3 * var(--u)) } 75%, 100% { translate: 0 0 } }
+@keyframes ch-land { 0% { scale: 1.2 .78 } 30% { scale: .9 1.12 } 60% { scale: 1.05 .96 } 85%, 100% { scale: 1 } }
+@keyframes ch-spawn { 0% { scale: 1 0 } 25% { scale: 1.2 .72 } 50% { scale: .88 1.14 } 75% { scale: 1.04 .97 } 90%, 100% { scale: 1 } }
+@keyframes ch-pop { 0% { scale: 0 } 30% { scale: 1.25 } 60% { scale: .92 } 85%, 100% { scale: 1 } }
+@keyframes ch-show { from { opacity: 0 } }
+@keyframes ch-heave { 0%, 34%, 60%, 100% { translate: 0 0 } 36%, 59% { translate: 0 calc(-1 * var(--u)) } }
+@keyframes ch-spark { 0% { opacity: 1; background: #fff; box-shadow: 0 calc(-1 * var(--u)) #ffd447, calc(-1 * var(--u)) 0 #ffd447, var(--u) 0 #ffd447 }
+  8% { opacity: 1; background: transparent; box-shadow: calc(-2 * var(--u)) calc(-2 * var(--u)) #ffd447, calc(2 * var(--u)) calc(-2 * var(--u)) #fff, calc(-1 * var(--u)) calc(-3 * var(--u)) #ffd447, calc(-3 * var(--u)) var(--u) #b9bec6, calc(2 * var(--u)) var(--u) #b9bec6 }
+  16%, 100% { opacity: 0 } }
+@keyframes ch-ore { 0% { opacity: 1; translate: 0 0 } 1.2% { translate: 0 calc(-2 * var(--u)) } 2.4% { translate: var(--u) calc(-4 * var(--u)) } 3.6% { translate: var(--u) calc(-5 * var(--u)) }
+  4.8%, 7.2% { translate: calc(2 * var(--u)) calc(-6 * var(--u)) } 8.4% { translate: calc(3 * var(--u)) calc(-5 * var(--u)) } 9.6% { translate: calc(3 * var(--u)) calc(-4 * var(--u)) }
+  10.8% { translate: calc(4 * var(--u)) calc(-2 * var(--u)) } 12%, 20% { opacity: 1; translate: calc(4 * var(--u)) calc(2 * var(--u)) } 21%, 100% { opacity: 0; translate: calc(4 * var(--u)) calc(2 * var(--u)) } }
+@keyframes ch-rise { to { translate: calc(var(--x) * var(--u)) calc(-16 * var(--u)) } }
+@keyframes ch-fade { 0%, 55% { opacity: 1 } 100% { opacity: 0 } }
+@keyframes ch-bump { 0% { scale: 1.16 } 25% { scale: .94 } 50% { scale: 1.05 } 75%, 100% { scale: 1 } }
+@keyframes ch-quiet { from { opacity: 0; translate: 0 calc(var(--px) * 4px) } }
+@media (prefers-reduced-motion: reduce) { .agent :is(.fig, .pix, .gnd, .say, .spark, .ore), .sign, .quiet { animation: none !important } .agent :is(.spark, .ore), .confetti, .snore { display: none } }
+/* Name tags wrap to two lines so the mission reads in full; bubble lists title, latest request, last reply. */
+.agent .tag { width: max-content; max-width: 136px; white-space: normal; overflow-wrap: anywhere; text-align: center; line-height: 1.15; padding: 1px 6px; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2 }
+.agent .say { max-width: 260px }
+.agent .say b { display: block; font-weight: 600 }
+.agent .say u { display: block; text-decoration: none; color: #a64d2e; margin: 2px 0 }
+/* Ore boulder under each miner's pickaxe, still. */
+.agent.miner .rock { position: absolute; z-index: -1; left: calc(20 * var(--u)); bottom: 0; width: calc(10 * var(--u)); height: calc(8 * var(--u));
+  background-size: 200% 100%; background-repeat: no-repeat; image-rendering: pixelated }
+/* Subagents at work: half-size characters standing still beside their session's character. */
+.minis { position: absolute; bottom: 0; display: flex; align-items: flex-end; line-height: 0 }
+.minis.r { left: calc(100% - 4px) }
+.minis.l { right: calc(100% - 4px); flex-direction: row-reverse }
+.mini { display: block; width: 32px; height: 30px; margin: 0 -1px; background-size: 200% 100%; background-repeat: no-repeat; image-rendering: pixelated }
+.minis b { align-self: center; margin: 0 6px; padding: 1px 3px; font: 600 11px/1 var(--display); color: var(--ink); background: var(--panel); border: 2px solid var(--ink) }
+.agent.walking .minis { visibility: hidden }
+.agent.miner .sprite { width: calc(22px * var(--px, 4)) }
+/* Miners stand close together: name tag only on hover or keyboard focus. */
+.miner .tag { max-width: 110px; visibility: hidden }
+.miner:is(:hover, :focus-visible) .tag { visibility: visible }
+/* Long wait: a stump behind the sitter, who sits 4 pixels up with feet dangling; a nap shuts the eyes. */
+.agent .pix { position: relative }
+.agent .seat { position: absolute; left: 50%; bottom: 0; width: calc(12 * var(--u)); height: calc(4 * var(--u)); margin-left: calc(-6 * var(--u)); background-size: 100% 100%; image-rendering: pixelated; pointer-events: none }
+.agent.sit .fig { padding-bottom: calc(4 * var(--u)) }
+/* Pull request pennant in the right hand: small, still, in the session's own colour, so red stays for "!". */
+.agent .flag { position: absolute; left: calc(15 * var(--u)); top: calc(2 * var(--u)); width: calc(5 * var(--u)); height: calc(7 * var(--u)); background-size: 100% 100%; image-rendering: pixelated; pointer-events: none }
+/* Crowds: a tag slides (--tx, --ty), shrinks to one line of its most telling words, moves beside the body or above the bubble, or waits for hover or focus; the hovered character shows its full tag in front. */
+.agent .tag { transform: translate(calc(-50% + var(--tx, 0px)), var(--ty, 0px)) }
+.agent:is(:hover, :focus-visible) .tag { --ty: 0px; transform: translate(calc(-50% + var(--hx, 0px)), var(--hy, 0px)) }
+.agent .tag .ts { display: none }
+.agent.tag1:not(:hover, :focus-visible) .tag { font-size: 10px; line-height: 1.15; padding: 0 4px }
+.agent.tag1:not(:hover, :focus-visible) .tag .tn { display: none }
+.agent.tag1:not(:hover, :focus-visible) .tag .ts { display: inline }
+.agent.tag1 .tag { -webkit-line-clamp: 1 }
+.agent.tagoff .tag { visibility: hidden }
+.agent:not(.walking, :disabled):is(:hover, :focus-visible) .tag { visibility: visible; -webkit-line-clamp: 2 }
+.agent:is(.tagr, .tagl):not(:hover, :focus-visible) .tag { top: calc(50% + var(--ty, 0px)); transform: translateY(-50%) }
+.agent.tagr:not(:hover, :focus-visible) .tag { left: calc(100% + 2px) }
+.agent.tagl:not(:hover, :focus-visible) .tag { left: auto; right: calc(100% + 2px) }
+.agent.tag1:not(:hover, :focus-visible) .tag { max-width: 112px }
+/* Last resort in a tight crowd: the one-line tag cut to 64 px (TINY in garden_layout.js) with an ellipsis. */
+.agent.tagt:not(:hover, :focus-visible) .tag { max-width: 64px }
+/* Newest tool result was an error: the bubble asks with a calm red "!" instead of "?". */
+.agent.err:not(.bye) .bubble { color: #c8322b }
+/* Camp fire at dusk and night: two-frame flame on crossed logs over a soft, still glow. */
+.fire { --u: calc(var(--px) * 1px); position: absolute; width: calc(10 * var(--u)); height: calc(9 * var(--u)); transform: translate(-50%, -100%); pointer-events: none }
+.fire::before { content: ""; position: absolute; left: 50%; top: 75%; width: calc(34 * var(--u)); height: calc(14 * var(--u)); transform: translate(-50%, -50%);
+  background: radial-gradient(closest-side, rgba(255, 184, 72, .24) 0 40%, rgba(255, 184, 72, .12) 40% 70%, rgba(255, 184, 72, .05) 70% 100%, transparent 100%) }
+.fire b { position: absolute; inset: 0 }
+/* Waiting time on its own line at the foot of the hover bubble. */
+.agent .say .wt { display: block; margin-top: 2px; font-style: normal; color: #5b6b57 }
+/* Rain or snow: an umbrella in the body colour, held in the right hand (left when the pennant is there). */
+.agent .umb { position: absolute; left: calc(10 * var(--u)); top: calc(-5 * var(--u)); width: calc(11 * var(--u)); height: calc(14 * var(--u)); background-size: 100% 100%; image-rendering: pixelated; pointer-events: none }
+.agent .flag ~ .umb, .agent .umb:has(~ .flag) { left: calc(-5 * var(--u)) }
+/* Tags beside the body or above the bubble: a 1px leader in the tag's border colour points at the owner; none for tags under their owner or while hovered. */
+.agent:is(.tagr, .tagl, .tagu):not(.tagoff, .walking, :disabled, :hover, :focus-visible)::after { content: ""; position: absolute; background: var(--ink); pointer-events: none }
+.agent.tagr:not(.tagoff, .walking, :disabled, :hover, :focus-visible)::after { left: calc(100% - 2 * var(--u)); top: calc(50% + var(--ty, 0px)); width: calc(2 * var(--u) + 2px); height: 1px }
+.agent.tagl:not(.tagoff, .walking, :disabled, :hover, :focus-visible)::after { right: calc(100% - 2 * var(--u)); top: calc(50% + var(--ty, 0px)); width: calc(2 * var(--u) + 2px); height: 1px }
+.agent.tagu:not(.tagoff, .walking, :disabled, :hover, :focus-visible)::after { left: calc(50% + clamp(-8px, var(--tx, 0px), 8px)); bottom: calc(100% + 32px); width: 1px; height: 10px }
+/* Hovered character's project: a faint, still light on the ground under each of its characters. */
+.agent.mate .gnd { background: radial-gradient(closest-side, rgba(255, 248, 210, .6), rgba(255, 248, 210, .3) 70%, transparent) 50% 50% / 100% 100% no-repeat; width: calc(18 * var(--u)); margin-left: calc(-9 * var(--u)); animation: none }
+/* Grey-blue blanket over the lap of a character that has waited a day or more; static. */
+.agent .blanket { position: absolute; left: 0; top: calc(11 * var(--u)); width: calc(16 * var(--u)); height: calc(4 * var(--u)); background-size: 100% 100%; image-rendering: pixelated; pointer-events: none }
+/* Salience follows urgency: a fresh wait gets a bright bubble and one soft ring on arrival; long waits a smaller, softer bubble, tag and stump; day-old waits recede (muted body, small dim bubble, dim tag, no bob). */
+.agent.fresh:not(.err, .bye) .bubble { background: #ffe45c; font-size: 20px; padding: 3px 9px; border-width: 3px }
+.agent.long:not(.bye) .bubble { font-size: 12px; padding: 2px 5px; opacity: .75 }
+.agent.long:not(:hover, :focus-visible) .tag { opacity: .8 }
+.agent.long .seat { opacity: .75 }
+.agent.stale:not(.bye) .bubble { font-size: 11px; padding: 1px 4px; border-width: 1px; bottom: calc(100% + 3px); opacity: .45 }
+.agent.stale:not(.bye) .bubble::after { width: 4px; height: 4px; margin-left: -2px }
+.agent:is(.long, .stale).err:not(.bye) .bubble { opacity: 1 }
+.agent.stale:not(:hover, :focus-visible) .tag { opacity: .55 }
+.agent.err:not(.bye) .bubble { border-color: #c8322b }
+.agent.ring::before { content: ""; position: absolute; left: 50%; bottom: calc(-2 * var(--u)); width: calc(20 * var(--u)); height: calc(6 * var(--u)); margin-left: calc(-10 * var(--u)); border: 2px solid #fff3b0; border-radius: 50%;
+  pointer-events: none; opacity: 0; animation: ch-ring 1.5s ease-out var(--rd, 0s) 1 }
+@keyframes ch-ring { 0% { opacity: .9; transform: scale(.4) } 100% { opacity: 0; transform: scale(1.5) } }
+@media (prefers-reduced-motion: reduce) { .agent.ring::before { display: none } }
+/* Two-frame sheets on the compositor (miner swing, camp fire): a ::before as wide as the sheet slides in steps with transform, clipped by its box. */
+.agent.miner .sprite, .fire b { overflow: hidden; background-size: 0 0 }
+.agent.miner .sprite { position: relative }
+.agent.miner .sprite::before, .fire b::before { content: ""; position: absolute; left: 0; top: 0; width: 200%; height: 100%; background-image: inherit; background-size: 100% 100%; background-repeat: no-repeat;
+  image-rendering: pixelated; animation: ch-strip2 .7s steps(1) var(--d, 0s) infinite }
+.fire b::before { animation-duration: .9s; animation-delay: 0s }
+@keyframes ch-strip2 { 0%, 100% { transform: none } 50% { transform: translateX(-50%) } }
+@media (prefers-reduced-motion: reduce) { .agent.miner .sprite::before, .fire b::before { animation: none } }

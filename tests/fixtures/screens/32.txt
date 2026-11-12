@@ -1,0 +1,10 @@
+❯ <command-name>/status</command-name>
+  <command-args></command-args>
+
+⏺ One
+
+❯ /review pr twelve
+
+⏺ Two
+
+⏺ Session model model-x could not be restored (not a model this version of Claude Code recognizes) — using the default model instead.

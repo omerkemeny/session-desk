@@ -1,0 +1,5 @@
+{"type":"ai-title","aiTitle":"Automatic title","sessionId":"c0000006-0000-4000-8000-000000000006"}
+{"type":"custom-title","customTitle":"First name","sessionId":"c0000006-0000-4000-8000-000000000006"}
+{"parentUuid":null,"isSidechain":false,"type":"user","message":{"role":"user","content":"Rename me"},"uuid":"u1","timestamp":"2026-02-01T10:00:34.000Z","userType":"external","entrypoint":"cli","cwd":"/work/alpha","sessionId":"c0000006-0000-4000-8000-000000000006","gitBranch":"main"}
+{"parentUuid":"u1","isSidechain":false,"type":"assistant","uuid":"a1","timestamp":"2026-02-01T10:00:35.000Z","userType":"external","entrypoint":"cli","cwd":"/work/alpha","sessionId":"c0000006-0000-4000-8000-000000000006","gitBranch":"main","message":{"id":"m1","type":"message","role":"assistant","model":"model-x","content":[{"type":"text","text":"Ok"}],"usage":{"input_tokens":1,"output_tokens":1,"cache_creation_input_tokens":0,"cache_read_input_tokens":0}}}
+{"type":"custom-title","customTitle":"Second name","sessionId":"c0000006-0000-4000-8000-000000000006"}

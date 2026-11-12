@@ -1,0 +1,11 @@
+❯ Group case 53
+
+  Read 1 file
+
+⏺ Looking further.
+
+  Searched for 1 pattern, read 1 file
+
+⏺ Group shown.
+
+⏺ Session model model-x could not be restored (not a model this version of Claude Code recognizes) — using the default model instead.

@@ -1,0 +1,14 @@
+❯ Tool results case 46
+
+  Ran 1 shell command
+
+⏺ Fetch(https://example.com/big)
+  ⎿  Received 1.5MB (200 OK)
+
+  Ran 1 shell command
+
+⏺ Results shown.
+
+⏺ Session model model-x could not be restored (not a model this version of Claude Code recognizes) — using the default model instead.
+
+⏺ Background shell command didn't finish before the previous session ended

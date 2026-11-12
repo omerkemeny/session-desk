@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Session Desk Legend</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Pixelify+Sans:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&text=0123456789&display=swap">
+<link rel="stylesheet" href="styles/base.css">
+<link rel="stylesheet" href="styles/garden.css">
+<link rel="stylesheet" href="styles/characters.css">
+<link rel="stylesheet" href="styles/motion.css">
+<link rel="stylesheet" href="styles/lists.css">
+<link rel="stylesheet" href="styles/responsive.css">
+<link rel="stylesheet" href="styles/legend.css">
+</head>
+<body>
+<div class="wrap lg">
+  <header class="top">
+    <h1>Legend</h1><span class="tagline">what the garden shows</span>
+    <p class="lg-intro">Every picture here is drawn by the app's own code, at the size the garden uses. Every number comes from the code too.</p>
+  </header>
+  <main id="legend"><p class="none">Loading…</p></main>
+</div>
+<script type="module">
+  import { mount } from './src/legend.js';
+  mount(document.getElementById('legend'));
+</script>
+</body>
+</html>

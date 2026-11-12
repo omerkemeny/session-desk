@@ -1,0 +1,6 @@
+❯ Group case 55
+
+  Read 2 files
+  ⎿  Interrupted · What should Claude do instead?
+
+⏺ Session model model-x could not be restored (not a model this version of Claude Code recognizes) — using the default model instead.

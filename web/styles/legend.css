@@ -1,0 +1,67 @@
+/* Legend page: one quiet column of signals, each a drawing well beside its meaning and rule; app tokens from base.css. */
+body { margin: 0 }
+.lg { max-width: 980px }
+.lg .top { align-items: baseline }
+.lg-intro { flex-basis: 100%; margin: 0; color: var(--muted); font-size: 13px }
+/* Section links and the zoom switch stay in reach while scrolling. */
+.lg-nav { position: sticky; top: 0; z-index: 400; display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: center; padding: 8px 0; background: var(--bg); border-bottom: 1px solid var(--line) }
+.lg-nav a { font: 400 13px var(--display); color: var(--muted); text-decoration: none; padding: 2px 0 }
+.lg-nav a:hover { color: var(--accent-ink) }
+.lg-zoom { margin-left: auto; font: 400 12px var(--display); color: var(--muted); background: var(--panel); border: 1px solid var(--line); padding: 2px 8px }
+.lg-zoom[aria-pressed="true"] { color: var(--accent-ink); border-color: var(--accent) }
+.lg-sec { scroll-margin-top: 48px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 20px; align-items: start }
+.lg-sec h2 { grid-column: 1 / -1; font: 600 18px var(--display); margin: 26px 0 0; padding-bottom: 6px; border-bottom: 1px solid var(--line) }
+.lg-sec > table { grid-column: 1 / -1 }
+.lg-row { display: flex; flex-direction: column; gap: 8px; min-width: 0 }
+.lg-text h3 { font: 600 15px var(--display); margin: 0 }
+.lg-mean { margin: 2px 0 0 }
+.lg-rule { margin: 4px 0 0; font: 12px/1.5 var(--mono); color: var(--muted) }
+/* Drawing wells: app pixel size (--px 4, 3 on narrow screens like the garden), three times that with the zoom on. */
+.lg-well { --px: 4; position: relative; display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: flex-end; justify-content: center; min-height: 72px; padding: 10px;
+  background: var(--sunk); border: 1px solid var(--line); overflow: hidden; max-width: 100% }
+.lg-big .lg-well { overflow: auto }
+.lg-big .lg-well { --px: 12 }
+.lg-ground { position: relative; width: 100%; height: calc(15px * var(--px) + 40px) }
+.lg-stage.tall { padding-bottom: 46px }
+.lg-stage.tall .lg-ground { height: calc(15px * var(--px) + 64px) }
+.lg-stage.short .lg-ground { height: 40px }
+.lg-stage.mine .lg-ground { min-width: calc(34px * var(--px)) }
+.lg-stage .tag { max-width: 136px }
+/* Samples show every name tag at full strength so they stay readable; the garden dims the tags of long and day-old waits, as the rows say. */
+.lg-stage .agent .tag { opacity: 1 !important }
+.lg-pix { display: inline-block; width: calc(var(--w) * var(--px) * 1px); height: calc(var(--h) * var(--px) * 1px); background-repeat: no-repeat; image-rendering: pixelated }
+.lg-grid { flex-direction: column; align-items: center }
+.lg-line { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 6px }
+.lg-grid .lg-pix { --px: 2 }
+.lg-big .lg-grid .lg-pix { --px: 6 }
+.lg-cap { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; font: 11px var(--mono); color: var(--muted) }
+.lg-rod { display: inline-flex; gap: 8px; align-items: center; position: absolute; right: 10px; top: 10px }
+/* Scenery: crops of the real backdrop at its own density (one scene pixel is half a sprite pixel), with garden markup placed on top. */
+.lg-layer { position: relative; display: inline-block; line-height: 0 }
+.lg-crop { display: block; width: calc(var(--w) * var(--px) * .5px); max-width: 100%; height: auto; aspect-ratio: var(--w) / var(--h); image-rendering: pixelated }
+.lg-layer:has(.lg-at) .lg-crop { max-width: none }
+.lg-at { position: absolute; left: calc(var(--x) * var(--px) * .5px); top: calc(var(--y) * var(--px) * .5px); width: 0; height: 0 }
+.lg-at .agent, .lg-at .fire, .lg-at .minemore { left: 0; top: 0 }
+.lg-z { left: 0; top: 0; animation: none }
+.lg-rain { position: absolute; inset: 0; background-size: calc(24px * var(--px)) calc(24px * var(--px)); image-rendering: pixelated; pointer-events: none }
+.lg-empty { color: var(--muted); font-size: 12px; align-items: center }
+/* Lists: chips, fold lines and pills as the lists and header draw them. */
+.lg-ui { justify-content: flex-start; align-items: center; background: var(--panel) }
+.lg-title { font-weight: 600 }
+.lg-ui .fold { border-top: 0; padding: 4px 0; min-height: 0 }
+.lg-pills { gap: 8px }
+.lg-pills .upd { margin-left: 0 }
+.lg-keys { width: 100%; border-collapse: collapse; font-size: 13px }
+.lg-keys th { text-align: left; font: 600 13px var(--display); padding: 6px 8px; border-bottom: 1px solid var(--line) }
+.lg-keys td { padding: 6px 8px; border-top: 1px solid var(--line); vertical-align: top }
+.lg-keys td:first-child { white-space: nowrap }
+/* The hidden garden the backdrop is drawn in, off screen. */
+.lg-hidden { --px: 4; position: absolute; left: -20000px; top: 0; width: 1100px; height: 480px; visibility: hidden; overflow: hidden }
+@media (max-width: 700px) {
+  .lg-well { --px: 3 }
+  .lg-big .lg-well { --px: 9 }
+  .lg-sec { grid-template-columns: minmax(0, 1fr) }
+  .lg-keys td:nth-child(2) { color: var(--muted) }
+}
+.lg-col { flex-direction: column; align-items: flex-start; gap: 2px }
+.lg-sub { color: var(--muted) }

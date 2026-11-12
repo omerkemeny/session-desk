@@ -1,0 +1,23 @@
+❯ Queue base request
+
+❯ /first
+  ⎿  line 1
+     line 2
+     line 3
+     line 4
+     line 5
+     line 6
+
+❯ /second
+  ⎿  line 1
+     line 2
+     line 3
+     line 4
+     line 5
+     line 6
+
+⏺ Queue base answer
+
+❯ Queued below the end
+
+⏺ Session model model-x could not be restored (not a model this version of Claude Code recognizes) — using the default model instead.

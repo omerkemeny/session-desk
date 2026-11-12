@@ -1,0 +1,173 @@
+/* drawer: whole session as a terminal transcript, one dark palette in both themes */
+.shade { position: fixed; inset: 0; background: rgba(0, 0, 0, .4); z-index: 300 }
+.drawer { --t-bg: #17171a; --t-fg: #e8e6e3; --t-dim: #93918c; --t-line: #303036; --t-user: #27272d; --t-ok: #6fca97; --t-bad: #f08a86; --t-accent: #e08a68; --t-run: #7ab8ee;
+  position: fixed; top: 0; right: 0; bottom: 0; width: min(920px, 100%); z-index: 310; background: var(--t-bg); color: var(--t-fg); color-scheme: dark;
+  border-left: 3px solid var(--ink); display: flex; flex-direction: column; animation: slide .26s cubic-bezier(.16, 1, .3, 1);
+  padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px) }
+@keyframes slide { from { transform: translateX(80px); opacity: 0 } 45% { opacity: 1 } }
+/* open and close: the shade dims in pixel steps, the drawer glides; closing ones ignore the pointer */
+.shade { animation: shade-in .2s steps(4, end) }
+.shade.closing { animation: shade-out .18s steps(3, end) forwards; pointer-events: none }
+.drawer.closing { animation: slide-out .18s cubic-bezier(.5, 0, .75, 0) forwards; pointer-events: none }
+@keyframes shade-in { from { opacity: 0 } }
+@keyframes shade-out { to { opacity: 0 } }
+@keyframes slide-out { to { transform: translateX(64px); opacity: 0 } }
+/* thin square scrollbars inside the dark drawer */
+.drawer ::-webkit-scrollbar { width: 10px; height: 10px }
+.drawer ::-webkit-scrollbar-track, .drawer ::-webkit-scrollbar-corner { background: transparent }
+.drawer ::-webkit-scrollbar-thumb { background: #3d3d45; border: 2px solid var(--t-bg) }
+.drawer ::-webkit-scrollbar-thumb:hover { background: var(--t-accent) }
+@supports not selector(::-webkit-scrollbar) { .drawer * { scrollbar-width: thin; scrollbar-color: #4a4a52 transparent } }
+.thead { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 10px 14px; border-bottom: 1px solid var(--t-line) }
+.thead .sprite { --px: 3 }
+.thead h2 { font: 600 17px/1.25 var(--display); margin: 0; overflow-wrap: anywhere }
+.tmeta { font: 12px var(--mono); color: var(--t-dim); display: flex; flex-wrap: wrap; gap: 0 14px }
+.tmeta .waiting { color: var(--t-accent) } .tmeta .running { color: var(--t-run) }
+/* header badges: the list rows' chips in the drawer's dark palette */
+.dtl { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; min-width: 0 }
+.thead .chips { position: relative; top: -2px }
+.thead .chip { background: transparent; border-color: var(--t-line); color: var(--t-dim) }
+.thead .chip.pr { color: var(--t-ok); border-color: currentColor }
+.thead .chip.also, .thead .chip.behind, .thead .chip.diverged { color: var(--t-accent); border-color: currentColor }
+.thead .chip.err { background: var(--t-bad); box-shadow: none }
+.tbtn { border: 1px solid var(--t-dim); background: none; color: var(--t-fg); font: 12px var(--mono); padding: 3px 9px; border-radius: 4px }
+.tbtn:hover { border-color: var(--t-accent); color: var(--t-accent) }
+.tbtn.go { background: var(--t-accent); border-color: var(--t-accent); color: #1b1210; font-weight: 500 }
+/* drawer buttons lift on hover and press flat onto their hard shadow */
+.tbtn { box-shadow: 2px 2px 0 var(--t-line); transition: color .12s, border-color .12s, background-color .12s, box-shadow .1s ease-out, transform .1s ease-out }
+.tbtn:hover { transform: translate(-1px, -1px); box-shadow: 3px 3px 0 var(--t-accent) }
+.tbtn:active { transform: translate(2px, 2px); box-shadow: 0 0 0 var(--t-accent); transition-duration: .04s }
+.term { flex: 1; min-height: 0; overflow-y: auto; padding: 14px; font: 13px/1.55 var(--mono); display: flex; flex-direction: column; gap: 10px }
+.term:focus-visible { outline-offset: -3px }
+.banner { color: var(--t-dim); border: 1px solid var(--t-line); border-radius: 6px; padding: 8px 12px; align-self: flex-start; max-width: 100%; overflow-wrap: anywhere }
+.banner b { color: var(--t-accent) }
+.ln { display: grid; grid-template-columns: 2ch minmax(0, 1fr) }
+.ln .g { color: var(--t-dim) }
+.ln.you { background: var(--t-user); padding: 6px 8px }
+.ln.claude > .g { color: var(--t-fg) }
+.ln.tool > .g { color: var(--t-ok) } .ln.tool.err > .g { color: var(--t-bad) }
+.ln .txt { white-space: pre-wrap; overflow-wrap: anywhere; min-width: 0 }
+.ln .txt pre { margin: 6px 0; padding: 8px 10px; background: #0f0f11; border: 1px solid var(--t-line); overflow-x: auto; white-space: pre }
+.ln .txt code { background: #2b2b31; padding: 0 3px }
+.ln .txt pre code { background: none; padding: 0 }
+.ln.res, .dim { color: var(--t-dim) }
+/* transcript: new lines rise in, the loading line gets a blinking block cursor */
+.ln.fresh { animation: ln-in .3s ease-out backwards }
+@keyframes ln-in { from { opacity: 0; transform: translateY(6px) } }
+.term > .dim.loading::after { content: ""; display: inline-block; width: .6em; height: 1.15em; margin-left: 4px; vertical-align: text-bottom; background: var(--t-fg); animation: blink-cur 1s steps(1) infinite }
+@keyframes blink-cur { 50% { opacity: 0 } }
+.tabs { display: flex; gap: 6px; align-items: center }
+.tab[aria-pressed="true"] { background: var(--t-fg); color: var(--t-bg); border-color: var(--t-fg) }
+.tab[aria-pressed="true"] { transform: translate(2px, 2px); box-shadow: none }
+.xt { flex: 1; min-height: 0; position: relative; padding: 8px 10px; overflow: hidden; font: 13px var(--mono); color: var(--t-dim) }
+.xtin { position: absolute; inset: 8px 4px 8px 10px }
+.ln a { color: var(--t-run) }
+.tfoot { border-top: 1px solid var(--t-line); padding: 10px 14px; display: flex; flex-direction: column; gap: 8px; font: 13px var(--mono) }
+.needs { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; color: var(--t-dim) }
+.needs .w { color: var(--t-accent) }
+/* failed quick reply: a plain heading, then the server's own text as given */
+.needs.rerr { flex-direction: column; align-items: flex-start; gap: 2px } .rerr b { color: var(--t-bad); font-weight: 600 }
+.rerr-t { color: var(--t-fg); font: 12px/1.45 var(--mono); white-space: pre-wrap; overflow-wrap: anywhere; max-height: 7.5em; overflow-y: auto; max-width: 100% }
+.prompt { display: flex; gap: 8px; align-items: center; border: 1px solid var(--t-dim); border-radius: 6px; padding: 6px 10px; color: var(--t-dim) }
+.prompt:focus-within { border-color: var(--t-accent) }
+.prompt input, .prompt textarea { flex: 1; min-width: 0; background: none; border: 0; outline: 0; color: var(--t-fg); font: inherit }
+.prompt textarea { resize: none; line-height: 20px; height: 20px; padding: 0; margin: 0; overflow-y: hidden; display: block }
+.prompt textarea::placeholder { white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+.prompt.off { border-style: dashed }
+.prompt :disabled { cursor: not-allowed }
+.prompt :disabled::placeholder { color: var(--t-dim) }
+.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(20px + env(safe-area-inset-bottom, 0px)); z-index: 400;
+  background: var(--ink); color: var(--bg); padding: 6px 14px; font: 600 14px var(--display); max-width: calc(100% - 32px) }
+/* toast pops up with a little overshoot and slides back down when it goes */
+.toast { box-shadow: 4px 4px 0 var(--accent); animation: toast-in .28s cubic-bezier(.2, 1.5, .4, 1) }
+.toast.out { animation: toast-out .2s ease-in forwards }
+@keyframes toast-in { from { transform: translate(-50%, 18px) scale(.8); opacity: 0 } to { transform: translate(-50%, 0) scale(1) } }
+@keyframes toast-out { from { transform: translate(-50%, 0) scale(1) } to { transform: translate(-50%, 140%) scale(1); opacity: 0 } }
+@media (prefers-reduced-motion: reduce) { .shade, .none, .toast, .ln.fresh, .term > .dim.loading::after { animation: none !important } .row, .search, .tbtn { transition: none } }
+/* folded runs of tool calls: one summary line with a quiet show/hide cue, lines keep their usual spacing when open */
+.fold { display: flex; flex-direction: column; gap: 10px }
+.fold > summary { list-style: none; cursor: pointer }
+.fold > summary::-webkit-details-marker { display: none }
+.fold > summary .txt::after { content: "  ▸ show"; content: "  ▸ show" / " show"; color: var(--t-dim) }
+.fold[open] > summary .txt::after { content: "  ▾ hide"; content: "  ▾ hide" / " hide" }
+.fold > summary:hover b, .fold > summary:hover .txt::after { color: var(--t-accent) }
+.fold > summary:focus-visible { outline-offset: 1px }
+.fold .bad { color: var(--t-bad) }
+.fold[open] > .ln:not(summary) { padding-left: 2ch }
+/* hidden results, as the CLI's default view: a tool line or a group line that expands in place; a quiet cue, the result reads like any other once open */
+.xp > summary { list-style: none; cursor: pointer }
+.xp > summary::-webkit-details-marker { display: none }
+.xp > summary > .txt::after { content: " ▸"; content: " ▸" / ""; color: var(--t-line) }
+.xp[open] > summary > .txt::after { content: " ▾"; content: " ▾" / "" }
+.xp > summary:hover > .txt::after, .xp > summary:focus-visible > .txt::after { color: var(--t-accent) }
+.xp > summary:hover b, .grp .xp > summary:hover > .txt { color: var(--t-accent) }
+.xp > summary:focus-visible { outline-offset: 1px }
+.xp > .ln.res { padding-left: 2ch }
+.grp, .grp > .xp[open] { display: flex; flex-direction: column; gap: 10px }
+.grp > .xp > summary > .txt { color: var(--t-fg) }
+.grp > .xp[open] > .ln:not(summary) { padding-left: 2ch }
+.grp > .xp[open] ~ .ln { display: none }
+.tbtn.det { margin-right: 4px }
+.tbtn.det[aria-pressed="true"] { border-color: var(--t-accent); color: var(--t-accent) }
+/* transcript lines beyond replies and tool calls: output and notes under a prompt, ! shell prompts, compaction and branch notes */
+.drawer { --t-bash: #f27cbd }
+.ln.sub { margin-top: -6px; padding-left: 2ch; color: var(--t-dim) }
+.ln.sub.err, .ln.claude.err .txt, .ln.claude.err > .g, .ln.tool.err .res .txt { color: var(--t-bad) }
+.ln.bash > .g { color: var(--t-bash) }
+.ln.note { color: var(--t-dim); border-top: 1px dashed var(--t-line); padding-top: 8px }
+.ln.note > .g { color: var(--t-accent) }
+.ln.note.other { color: var(--t-accent) }
+.term > .more { align-self: center }
+/* Markdown in replies: plain, close to the CLI; paragraphs keep their line breaks */
+.ln .txt.md { white-space: normal }
+.md p, .md .mh, .md .li > span:last-child { white-space: pre-wrap; margin: 0 }
+.md > * + * { margin-top: .55em }
+.md .mh { font-weight: 700 }
+.md .mh.h1 { text-decoration: underline; text-underline-offset: 3px }
+.md .li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 1ch }
+.md .li.l1 { padding-left: 2ch } .md .li.l2 { padding-left: 4ch } .md .li.l3 { padding-left: 6ch }
+.md .lm { color: var(--t-dim) }
+.md blockquote { margin-left: 0; margin-right: 0; padding-left: 1.5ch; border-left: 2px solid var(--t-line); color: var(--t-dim); font-style: italic }
+.ln .txt pre.tbl { background: none; border: 0; padding: 0; margin: 0 }
+.md .code { position: relative } .md .code pre { margin: 0 }
+/* copy buttons: quiet until the reader points at a code block or a reply */
+.ln.claude { position: relative }
+.cbtn { position: absolute; top: 4px; right: 4px; opacity: 0; font: 11px/1.4 var(--mono); color: var(--t-dim); background: var(--t-bg); border: 1px solid var(--t-line); border-radius: 3px; padding: 0 6px; cursor: pointer; transition: opacity .12s }
+.ln.claude > .cbtn { top: -2px; right: 0 }
+.md .code:hover > .cbtn, .ln.claude:hover > .cbtn, .ln.claude:focus > .cbtn, .cbtn:focus-visible { opacity: 1 }
+/* j/k focus on a prompt or reply: a thin accent bar at the left, no box */
+.term .ln[tabindex]:focus { outline: 0 }
+.term .ln[tabindex]:focus-visible { outline: 0; box-shadow: -3px 0 0 var(--t-accent) }
+.cbtn:hover { color: var(--t-accent); border-color: var(--t-accent) }
+@media (hover: none) { .md .code > .cbtn { opacity: .7 } }
+/* compaction: the CLI's two lines, "Conversation compacted" then "Compact summary", kept together as one transcript part */
+.cmp { display: flex; flex-direction: column; gap: 10px }
+.cmp.fresh { animation: ln-in .3s ease-out backwards }
+@media (prefers-reduced-motion: reduce) { .cmp.fresh { animation: none } }
+/* transcript parts never shrink in the scrolling column: an open fold keeps its full height instead of running under the next line */
+.term > * { flex-shrink: 0 }
+/* Terminal tab when the CLI cannot run: the reason as plain text in place of a terminal */
+.xt-off { margin: 14px; color: var(--t-fg); font: 13px/1.5 var(--mono); white-space: pre-wrap; overflow-wrap: anywhere }
+/* find in a session: one quiet row under the header; matches marked without touching the transcript, the current one in the accent */
+.tbtn.fnd[aria-expanded="true"] { border-color: var(--t-accent); color: var(--t-accent) }
+.tfind { display: flex; gap: 6px; align-items: center; padding: 6px 14px; border-bottom: 1px solid var(--t-line); font: 12px var(--mono) }
+.tfind[hidden] { display: none }
+.tfind input { flex: 1; min-width: 0; background: none; border: 1px solid var(--t-line); border-radius: 4px; color: var(--t-fg); font: inherit; padding: 3px 8px; outline: 0 }
+.tfind input:focus { border-color: var(--t-accent) }
+.tfind input::placeholder { color: var(--t-dim) }
+.fcount { color: var(--t-dim); min-width: 9ch; text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums }
+.tfind .tbtn { padding: 1px 7px }
+::highlight(desk-find) { background-color: rgba(224, 138, 104, .3); color: inherit }
+::highlight(desk-find-cur) { background-color: #e08a68; color: #1b1210 }
+.term .fcur { box-shadow: -3px 0 0 var(--t-accent) }
+/* a match found in a line's source but not in its drawn words: the line is marked, not other words */
+.term .fline { box-shadow: -3px 0 0 rgba(224, 138, 104, .45) }
+.term .fline.fcur { box-shadow: -3px 0 0 var(--t-accent) }
+/* gap between a far match's part and the newest part: quiet, like "Show earlier" */
+.term > .gap { border-style: dashed }
+/* where the drawn matches sit, on the scrollbar's track; the pointer passes through to the scrollbar */
+.fticks { position: absolute; right: 0; width: 10px; pointer-events: none; z-index: 1 }
+.fticks[hidden] { display: none }
+.fticks i { position: absolute; left: 1px; right: 1px; height: 2px; background: rgba(224, 138, 104, .55) }
+.fticks i.cur { height: 3px; background: var(--t-accent) }
+@media (prefers-reduced-data: reduce) { .fticks { display: none } }

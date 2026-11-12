@@ -1,0 +1,60 @@
+/* usage statistics: Stats button in the header, scoreboard modal on its own shade above the session drawer */
+.us-btn { font: 600 14px var(--display); background: var(--panel); color: var(--ink); border: 2px solid var(--ink); box-shadow: 2px 2px 0 var(--ink); padding: 2px 12px }
+.us-btn:hover { background: var(--accent-soft) }
+.us-btn:active { transform: translate(2px, 2px); box-shadow: none }
+.us-shade { position: fixed; inset: 0; background: rgba(0, 0, 0, .45); z-index: 320 }
+.us { position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 330; width: min(940px, calc(100% - 32px)); max-height: calc(100% - 32px);
+  overflow-y: auto; background: var(--bg); color: var(--ink); border: 3px solid var(--ink); box-shadow: 6px 6px 0 var(--ink); padding: 14px 16px 16px; animation: us-pop .18s steps(3) }
+@keyframes us-pop { from { transform: translate(-50%, -46%); opacity: 0 } }
+.us:focus { outline: none }
+.us-head { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; margin-bottom: 12px }
+.us-head h2 { font: 600 22px/1.1 var(--display); margin: 0 }
+.us-sub { color: var(--muted); font: 400 12px var(--display) }
+.us-per { display: flex; margin-left: auto; border: 2px solid var(--ink); box-shadow: 2px 2px 0 var(--ink) }
+.us-per button { font: 600 13px var(--display); background: var(--panel); border: 0; border-left: 2px solid var(--ink); padding: 2px 10px }
+.us-per button:first-child { border-left: 0 }
+.us-per button[aria-pressed="true"] { background: var(--ink); color: var(--bg) }
+.us-x { font: 600 13px var(--display); background: var(--panel); border: 2px solid var(--ink); padding: 2px 8px }
+.us-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(136px, 1fr)); gap: 10px }
+.us-tile { background: var(--panel); border: 2px solid var(--ink); box-shadow: 3px 3px 0 var(--ink); padding: 8px 10px; min-width: 0 }
+.us-big { font: 600 28px/1.15 var(--display); font-variant-numeric: tabular-nums; color: var(--accent-ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+.us-lbl { display: block; font-size: 12px; color: var(--muted) }
+.us-tile .us-lbl:first-of-type { color: var(--ink); font-weight: 600 }
+.us-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 14px }
+.us-card { background: var(--panel); border: 2px solid var(--ink); padding: 8px 10px 10px; min-width: 0 }
+.us-card.wide { grid-column: 1 / -1 }
+.us-card h3 { font: 600 15px var(--display); margin: 0 0 8px; display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 2px 8px }
+.us-card h3 span { color: var(--faint); font-weight: 400; font-size: 12px }
+.us-cols { display: flex; align-items: flex-end; gap: 2px; height: 96px; border-bottom: 2px solid var(--ink) }
+.us-cols i { flex: 1 1 0; min-width: 1px; min-height: 2px; background: var(--run) }
+.us-cols i.now { background: var(--accent) }
+.us-cols i.zero { background: var(--line) }
+.us-axis { display: flex; justify-content: space-between; font: 400 11px var(--display); color: var(--faint); margin-top: 3px }
+.us-rows { display: grid; gap: 5px }
+.us-row { display: grid; grid-template-columns: minmax(0, 10em) minmax(0, 1fr) 5.5em; gap: 8px; align-items: center; font-size: 12px }
+.us-row .num { text-align: right; white-space: nowrap }
+.us-row .n { overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.us-bar { height: 10px; background: var(--sunk); border: 1px solid var(--line) }
+.us-bar i { display: block; height: 100%; min-width: 1px; background: var(--accent) }
+.us-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px 16px }
+.us-facts b { display: block; font: 600 17px var(--display); font-variant-numeric: tabular-nums; overflow-wrap: anywhere }
+.us-note { color: var(--muted); font-size: 12px; margin: 12px 0 0 }
+.us-wait { padding: 34px 10px; text-align: center; font: 400 15px var(--display) }
+.us-prog { height: 16px; border: 2px solid var(--ink); max-width: 320px; margin: 12px auto 0; background: var(--sunk) }
+.us-prog i { display: block; height: 100%; background: var(--accent) }
+@media (max-width: 700px) { .us-grid { grid-template-columns: minmax(0, 1fr) } .us-per { margin-left: 0 } .us-big { font-size: 22px } .us-row { grid-template-columns: minmax(0, 7em) minmax(0, 1fr) 5.5em } }
+@media (prefers-reduced-motion: reduce) { .us { animation: none } }
+/* chart keyboard access: a focus ring on the chart, the picked bar outlined, its numbers in one line under the axis; empty periods say so */
+.us-cols:focus-visible { outline-offset: 4px }
+.us-cols i.sel { outline: 2px solid var(--ink); outline-offset: -1px }
+.us-tip { min-height: 18px; font-size: 12px; color: var(--muted); margin-top: 2px }
+.us-empty { height: 96px; display: grid; place-items: center; color: var(--muted); font-size: 13px; border: 1px dashed var(--line); background: var(--sunk) }
+.us-per button:focus-visible, .us-x:focus-visible { position: relative; z-index: 1 }
+/* "Today in the garden" card: what the scenery stands for, in the usual card and facts style */
+.us-wait + .us-today { margin-top: 14px }
+.us-today:focus-visible { outline-offset: 2px }
+/* quiet footer link to the legend page */
+.us-foot { margin: 8px 0 0; text-align: right; font-size: 12px }
+.us-legend { color: var(--muted); font-size: 12px; text-underline-offset: 2px }
+.us-legend:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px }
+.us-legend:hover { color: var(--ink) }

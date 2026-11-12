@@ -1,0 +1,47 @@
+❯ Show output
+
+! seq 6
+  ⎿  line 1
+     line 2
+     line 3
+     … +3 lines
+
+❯ <command-name>/status</command-name><command-args></command-args>
+  ⎿  line 1
+     line 2
+     line 3
+     line 4
+     line 5
+     line 6
+
+! seq 6
+  ⎿  line 1
+     line 2
+     line 3
+     line 4
+     line 5
+     line 6
+
+  Read 1 file
+
+⏺ Update(/w/a.txt)
+
+⏺ Write(/w/b.txt)
+
+  Searched for 2 patterns, ran 1 shell command
+
+⏺ Explore(Look around)
+
+⏺ Agent(Helper)
+
+⏺ Fetch(https://example.com/x)
+
+⏺ Web Search("weather")
+
+  Called srv
+
+⏺ Skill(foo)
+
+⏺ Shown.
+
+⏺ Session model model-x could not be restored (not a model this version of Claude Code recognizes) — using the default model instead.

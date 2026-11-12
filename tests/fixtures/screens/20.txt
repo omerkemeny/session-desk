@@ -1,0 +1,14 @@
+✻ Conversation compacted (ctrl+o for the summary)
+
+
+⏺ Compact summary (ctrl+o to expand)
+
+❯ Mid kept request
+
+⏺ Mid kept answer
+
+❯ Branch two request
+
+⏺ Branch two answer
+
+⏺ Session model model-x could not be restored (not a model this version of Claude Code recognizes) — using the default model instead.

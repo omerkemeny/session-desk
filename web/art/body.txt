@@ -1,0 +1,83 @@
+# The character's body below the hat: two bar eyes, one shade column. Uses palette.txt.
+# Colour sets are the body colours a session can wear, in the order sessions are given them (keep the order).
+size 16x8
+
+[colours]
+orange  body=#d97757 shade=#b85c3c
+pink    body=#e889ad shade=#bd5f85
+teal    body=#55b3a0 shade=#368674
+purple  body=#9484e6 shade=#6c5cc0
+yellow  body=#e3b93f shade=#b58c1f
+blue    body=#69a5ea shade=#447dc0
+green   body=#86c466 shade=#5f9a44
+grey    body=#b3a9a3 shade=#877d78
+
+[frame stand]
+..oooooooooood..
+..oooooooooood..
+..ookooooookod..
+..ookooooookod..
+oooooooooooooooo
+oooooooooooooodd
+..oooooooooood..
+..dddddddddddd..
+
+[frame shut]
+..oooooooooood..
+..oooooooooood..
+..oooooooooood..
+..okkkooookkkd..
+oooooooooooooooo
+oooooooooooooodd
+..oooooooooood..
+..dddddddddddd..
+
+[frame glad]
+..oooooooooood..
+..oooooooooood..
+..ookooooookod..
+..okokooookokd..
+oooooooooooooooo
+oooooooooooooodd
+..oooooooooood..
+..dddddddddddd..
+
+[frame look-right]
+..oooooooooood..
+..oooooooooood..
+..oookooooookd..
+..oookooooookd..
+oooooooooooooooo
+oooooooooooooodd
+..oooooooooood..
+..dddddddddddd..
+
+[frame look-left]
+..oooooooooood..
+..oooooooooood..
+..okooooookood..
+..okooooookood..
+oooooooooooooooo
+oooooooooooooodd
+..oooooooooood..
+..dddddddddddd..
+
+[frame wave]
+..oooooooooood..
+..oooooooooood.o
+..ookooooookodoo
+..ookooooookodoo
+oooooooooooooo..
+oooooooooooooo..
+..oooooooooood..
+..dddddddddddd..
+
+[frame cheer]
+..oooooooooood..
+o.oooooooooood.o
+ooookooooookodoo
+oookokooookokdoo
+..oooooooooooo..
+..oooooooooooo..
+..oooooooooood..
+..dddddddddddd..
